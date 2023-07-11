@@ -1,0 +1,107 @@
+syntax on
+filetype plugin indent on
+
+call plug#begin()
+
+	Plug  'preservim/nerdtree'
+
+	"Live server
+	Plug 'https://github.com/wolandark/browser-sync.git'
+
+	"Emmet for html and css
+	Plug 'mattn/emmet-vim'
+
+	"Comment stuff out
+	Plug 'https://github.com/tpope/vim-commentary.git'
+
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+
+"	Plug  'https://github.com/ycm-core/YouCompleteMe.git'
+"		let g:ycm_key_list_select_completion=[]
+"		let g:ycm_key_list_previous_completion=[]
+
+	Plug  'neoclide/coc.nvim', {'branch': 'release'}
+		let g:coc_global_extensions = ['coc-diagnostic', 'coc-eslint', 'coc-fzf-preview', 'coc-git', 'coc-html', 'coc-htmldjango', 'coc-pyright', 'coc-json', 'coc-lit-html', 'coc-sh', 'coc-tsserver', 'coc-css', 'coc-html-css-support']
+
+	Plug  'pgilad/vim-skeletons'
+		let skeletons#autoRegister = 1
+		let skeletons#skeletonsDir = "~/.vim/plugged/vim-skeletons/skeletons/"
+
+call plug#end()
+
+autocmd BufNewFile *.class.hpp 0r ~/.vim/templates/Fixed.class.hpp
+autocmd BufNewFile *.class.cpp 0r ~/.vim/templates/Fixed.class.cpp
+autocmd BufNewFile Makefile 0r ~/.vim/templates/Makefile
+autocmd BufNewFile main.cpp 0r ~/.vim/templates/main.cpp
+autocmd BufNewFile colours.hpp 0r ~/.vim/templates/colours.hpp
+"autocmd BufNewFile *.html 0r ~/.vim/templates/boiler.html
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
+"Termdebug panes layout
+
+	let g:termdebug_wide=1
+
+"Emmet shortcuts
+	
+	let g:user_emmet_mode='n' "Only enable functions in normal mode
+	let g:user_emmet_leader_key=','
+
+"Source the termdebug plugin
+
+	packadd termdebug
+	
+"Line Numbering
+
+	set number
+
+"Colorscheme
+
+"	colorscheme slate
+"	colorscheme delek
+	
+" Highlight matching brackets [{()}]
+
+	set showmatch
+
+"Wild Menu
+
+	set wildmenu
+
+"Cursor line highlight
+
+	set cursorline
+
+"Show Command
+
+	set showcmd
+
+"Search
+
+	set incsearch
+	set hlsearch
+
+"Tabs
+"
+	set tabstop=4					"width of a hard tabstop measured in spaces
+	set softtabstop=0 noexpandtab	"expand tab inserts spaces instead of tab
+	set shiftwidth=4				"size of an indent
+
+"Autocomplete closing brackets
+
+	inoremap " ""<left>
+	inoremap ' ''<left>
+	inoremap ( ()<left>
+	inoremap [ []<left>
+	inoremap { {}<left>
+	inoremap {<CR> {<CR>}<ESC>O
+	inoremap {;<CR> {<CR>};<ESC>O 
+
+" Encoding
+
+	set encoding=utf-8
+
+" Mapping tab to auto complete coc nvim
+
+	inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+		\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
